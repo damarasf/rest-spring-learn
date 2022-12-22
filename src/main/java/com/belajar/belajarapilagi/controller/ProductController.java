@@ -48,8 +48,21 @@ public class ProductController {
     }
 
     @PutMapping("/update/{id}")
-    public Product update(@PathVariable Long id, @RequestBody Product product){
-        return productService.update(id, product);
+    public ResponseEntity<ResponseData<Product>> update(@Valid @PathVariable Long id, @RequestBody Product product, Errors errors) {
+
+        ResponseData<Product> responseData = new ResponseData<>();
+
+        if (errors.hasErrors()) {
+            for (ObjectError error : errors.getAllErrors()) {
+                responseData.getMessages().add(error.getDefaultMessage());
+            }
+            responseData.setStatus(false);
+            responseData.setPayload(null);
+            return ResponseEntity.badRequest().body(responseData);
+        }
+        responseData.setStatus(true);
+        responseData.setPayload(productService.update(id, product));
+        return ResponseEntity.ok(responseData);
     }
 
     @DeleteMapping("/delete/{id}")
