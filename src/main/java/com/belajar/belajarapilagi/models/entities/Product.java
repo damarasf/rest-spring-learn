@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -28,4 +29,13 @@ public class Product implements Serializable {
     private String description;
 
     private Double price;
+
+    @ManyToOne
+    private Category category;
+
+    @ManyToMany
+    @JoinTable(name = "tbl_product_suplier",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "suplier_id"))
+    private Set<Suplier> supliers;
 }
