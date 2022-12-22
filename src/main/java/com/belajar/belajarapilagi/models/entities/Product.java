@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Getter
@@ -18,9 +19,11 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "Name cannot be empty")
     @Column(name = "name", length = 50)
     private String name;
 
+    @NotEmpty(message = "Description cannot be empty")
     @Column(name = "description", length = 100)
     private String description;
 
