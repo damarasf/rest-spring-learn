@@ -1,6 +1,7 @@
 package com.belajar.belajarapilagi.controller;
 
 import com.belajar.belajarapilagi.dto.ResponseData;
+import com.belajar.belajarapilagi.dto.SearchData;
 import com.belajar.belajarapilagi.models.entities.Product;
 import com.belajar.belajarapilagi.models.entities.Suplier;
 import com.belajar.belajarapilagi.service.ProductService;
@@ -11,7 +12,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/product")
@@ -74,5 +75,10 @@ public class ProductController {
     @PostMapping("/add-suplier/{productId}")
     public void addSuplier(@RequestBody Suplier suplier, @PathVariable Long productId){
         productService.addSuplier(suplier, productId);
+    }
+
+    @PostMapping("/search/name")
+    public List<Product> getByName(@RequestBody SearchData searchData){
+        return productService.findByName(searchData.getSearchKey());
     }
 }

@@ -46,9 +46,9 @@ public class ProductService {
         return productRepo.save(product1);
     }
 
-    public List<Product> findByNameContains(String name) {
+    /*public List<Product> findByNameContains(String name) {
         return productRepo.findByNameContains(name);
-    }
+    }*/
 
     public void addSuplier(Suplier suplier, Long productId) {
         Product product = findById(productId);
@@ -60,5 +60,9 @@ public class ProductService {
         }
         product.getSupliers().add(suplier);
         save(product);
+    }
+
+    public List<Product> findByName(String name) {
+        return productRepo.findByName(name);
     }
 }
