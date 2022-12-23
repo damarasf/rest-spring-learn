@@ -1,6 +1,7 @@
 package com.belajar.belajarapilagi.service;
 
 import com.belajar.belajarapilagi.models.entities.Product;
+import com.belajar.belajarapilagi.models.entities.Suplier;
 import com.belajar.belajarapilagi.models.repos.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,4 +50,15 @@ public class ProductService {
         return productRepo.findByNameContains(name);
     }
 
+    public void addSuplier(Suplier suplier, Long productId) {
+        Product product = findById(productId);
+        if (product != null) {
+            product.getSupliers().add(suplier);
+            productRepo.save(product);
+        } else {
+            throw new RuntimeException("Product with ID: "+productId+" not found");
+        }
+        product.getSupliers().add(suplier);
+        save(product);
+    }
 }

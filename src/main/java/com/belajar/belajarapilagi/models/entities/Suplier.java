@@ -1,5 +1,9 @@
 package com.belajar.belajarapilagi.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +14,10 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "tbl_suplier")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Suplier {
 
     private static final long serialVersionUID = 1L;
@@ -28,5 +36,6 @@ public class Suplier {
     private String email;
 
     @ManyToMany(mappedBy = "supliers")
+//    @JsonBackReference
     private Set<Product> products;
 }
