@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,5 +40,21 @@ public class SuplierService {
         Suplier suplier1 = findById(id);
         suplier1.setName(suplier.getName());
         return suplierRepo.save(suplier1);
+    }
+
+    public Suplier findByEmail(String email){
+        return suplierRepo.findByEmail(email);
+    }
+
+    public List<Suplier> findByName(String name){
+        return suplierRepo.findByNameContains(name);
+    }
+
+    public List<Suplier> findByNamePrefix(String prefix){
+        return suplierRepo.findByNameStartingWith(prefix);
+    }
+
+    public List<Suplier> findByNameOrEmail(String name, String email){
+        return suplierRepo.findByNameContainsOrEmailContains(name, email);
     }
 }

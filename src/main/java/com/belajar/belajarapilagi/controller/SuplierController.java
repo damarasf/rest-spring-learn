@@ -1,6 +1,7 @@
 package com.belajar.belajarapilagi.controller;
 
 import com.belajar.belajarapilagi.dto.ResponseData;
+import com.belajar.belajarapilagi.dto.SearchData;
 import com.belajar.belajarapilagi.dto.SuplierDto;
 import com.belajar.belajarapilagi.models.entities.Suplier;
 import com.belajar.belajarapilagi.service.SuplierService;
@@ -12,6 +13,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/suplier")
@@ -76,5 +78,25 @@ public class SuplierController {
         responseData.setStatus(true);
         responseData.setPayload(suplierService.update(id, suplier));
         return ResponseEntity.ok(responseData);
+    }
+
+    @PostMapping("/search/email")
+    public Suplier findByEmail(@RequestBody SearchData searchData){
+        return suplierService.findByEmail(searchData.getSearchKey());
+    }
+
+    @PostMapping("/search/name")
+    public List<Suplier> findByName(@RequestBody SearchData searchData){
+        return suplierService.findByName(searchData.getSearchKey());
+    }
+
+    @PostMapping("/search/prefix")
+    public List<Suplier> findByNameStartingWith(@RequestBody SearchData searchData){
+        return suplierService.findByNamePrefix(searchData.getSearchKey());
+    }
+
+    @PostMapping("/search/contains")
+    public List<Suplier> findByNameContainsOrEmailContains(@RequestBody SearchData searchData){
+        return suplierService.findByNameOrEmail(searchData.getSearchKey(), searchData.getOtherKey());
     }
 }

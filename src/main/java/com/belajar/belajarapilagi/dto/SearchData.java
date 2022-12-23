@@ -8,4 +8,6 @@ import lombok.Setter;
 public class SearchData {
 
     private String searchKey;
+
+    private String otherKey;
 }

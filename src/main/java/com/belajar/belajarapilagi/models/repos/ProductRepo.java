@@ -16,7 +16,6 @@ public interface ProductRepo extends CrudRepository <Product, Long> {
     @Query("select p from Product p where p.category.id = :categoryId")
     List<Product> findByCategory(@PathParam("categoryId") Long categoryId);
 
-
     @Query("select p from Product p where :suplier member of p.supliers")
     List<Product>findBySuplier(@PathParam("suplier") Suplier suplier);
 
