@@ -14,10 +14,10 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "tbl_suplier")
-@JsonIdentityInfo(
+/*@JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
-)
+)*/
 public class Suplier {
 
     private static final long serialVersionUID = 1L;
@@ -36,6 +36,6 @@ public class Suplier {
     private String email;
 
     @ManyToMany(mappedBy = "supliers")
-//    @JsonBackReference
+    @JsonBackReference
     private Set<Product> products;
 }

@@ -81,4 +81,14 @@ public class ProductController {
     public List<Product> getByName(@RequestBody SearchData searchData){
         return productService.findByName(searchData.getSearchKey());
     }
+
+    @GetMapping("/search/category/{categoryId}")
+    public List<Product> getByCategory(@PathVariable Long categoryId){
+        return productService.findByCategory(categoryId);
+    }
+
+    @GetMapping("/search/suplier/{suplierId}")
+    public List<Product> getBySuplier(@PathVariable Long suplierId){
+        return productService.findBySuplier(suplierId);
+    }
 }
