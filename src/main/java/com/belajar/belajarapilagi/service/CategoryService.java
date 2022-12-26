@@ -3,6 +3,7 @@ package com.belajar.belajarapilagi.service;
 import com.belajar.belajarapilagi.models.entities.Category;
 import com.belajar.belajarapilagi.models.repos.CategoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -39,5 +40,13 @@ public class CategoryService {
         Category category1 = findById(id);
         category1.setName(category.getName());
         return categoryRepo.save(category1);
+    }
+
+    public Iterable<Category> findByNameContains(String name, Pageable pageable){
+        return categoryRepo.findByNameContains(name, pageable);
+    }
+
+    public Iterable<Category> saveBatch(Iterable<Category> categories){
+        return categoryRepo.saveAll(categories);
     }
 }
