@@ -1,9 +1,13 @@
 package com.belajar.belajarapilagi.service;
 
 import com.belajar.belajarapilagi.models.entities.Product;
+import com.belajar.belajarapilagi.models.entities.ProductPage;
+import com.belajar.belajarapilagi.models.entities.ProductSearchCriteria;
 import com.belajar.belajarapilagi.models.entities.Suplier;
+import com.belajar.belajarapilagi.models.repos.ProductCriteriaRepo;
 import com.belajar.belajarapilagi.models.repos.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,10 +20,24 @@ import java.util.Optional;
 public class ProductService {
 
     @Autowired
-    private ProductRepo productRepo;
+    private final ProductRepo productRepo;
+
+    private final ProductCriteriaRepo productCriteriaRepo;
 
     @Autowired
     private SuplierService suplierService;
+
+    public ProductService(ProductRepo productRepo, ProductCriteriaRepo productCriteriaRepo) {
+        this.productRepo = productRepo;
+        this.productCriteriaRepo = productCriteriaRepo;
+    }
+
+    public Page<Product> getProducts(
+            ProductPage productPage,
+            ProductSearchCriteria productSearchCriteria) {
+
+        return productCriteriaRepo.findAll(productPage, productSearchCriteria);
+    }
 
     public Product save(Product product) {
         return productRepo.save(product);

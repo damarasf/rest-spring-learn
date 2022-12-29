@@ -3,9 +3,12 @@ package com.belajar.belajarapilagi.controller;
 import com.belajar.belajarapilagi.dto.ResponseData;
 import com.belajar.belajarapilagi.dto.SearchData;
 import com.belajar.belajarapilagi.models.entities.Product;
+import com.belajar.belajarapilagi.models.entities.ProductPage;
+import com.belajar.belajarapilagi.models.entities.ProductSearchCriteria;
 import com.belajar.belajarapilagi.models.entities.Suplier;
 import com.belajar.belajarapilagi.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
@@ -18,8 +21,21 @@ import java.util.List;
 @RequestMapping("/api/product")
 public class ProductController {
 
-    @Autowired
-    private  ProductService productService;
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<Product>> getProducts(
+            ProductPage productPage,
+            ProductSearchCriteria productSearchCriteria) {
+        return new ResponseEntity<>(
+                productService.getProducts(
+                        productPage,
+                        productSearchCriteria), HttpStatus.OK);
+    }
 
     @PostMapping("/create")
     public ResponseEntity<ResponseData<Product>> create(@Valid @RequestBody Product product, Errors errors) {
@@ -39,10 +55,6 @@ public class ProductController {
         return ResponseEntity.ok(responseData);
     }
 
-    @GetMapping
-    public Iterable<Product> findAll(){
-        return productService.findAll();
-    }
 
     @GetMapping("/{id}")
     public Product findById(@PathVariable Long id){
